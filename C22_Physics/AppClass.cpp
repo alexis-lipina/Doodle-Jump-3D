@@ -13,10 +13,10 @@ void Application::InitVariables(void)
 	m_pEntityMngr->AddEntity("Minecraft\\Steve.obj", "Steve");
 	m_pEntityMngr->UsePhysicsSolver();
 	
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
-		vector3 v3Position = vector3(glm::sphericalRand(10.0f));
+		vector3 v3Position = vector3(glm::sphericalRand(50.0f));
 		//v3Position.y = 0.0f;
 		v3Position.z = 0.0f;
 		matrix4 m4Position = glm::translate(v3Position);
@@ -44,12 +44,14 @@ void Application::Update(void)
 
 	MyEntity* steve = MyEntity::GetEntity("Steve");
 	float playerY = steve->GetPosition().y;
-	
-	m_pCameraMngr->SetPositionTargetAndUpward(
-		vector3(0.0f, playerY + 5.0f, 25.0f),
-		vector3(0.0f, playerY, 0.0f),
-		AXIS_Y);
 
+	if (m_pCameraMngr->GetPosition().y < playerY + 5.0f) {
+		m_pCameraMngr->SetPositionTargetAndUpward(
+			vector3(0.0f, playerY + 5.0f, 25.0f),
+			vector3(0.0f, playerY, 0.0f),
+			AXIS_Y);
+	}
+	
 	//Set the model matrix for the main object
 	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
 
