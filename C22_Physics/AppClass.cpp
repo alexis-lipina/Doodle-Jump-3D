@@ -4,7 +4,7 @@ void Application::InitVariables(void)
 {
 	//Set the position and target of the camera
 	m_pCameraMngr->SetPositionTargetAndUpward(
-		vector3(0.0f, 5.0f, 25.0f), //Position
+		vector3(0.0f, 4.0f, 25.0f), //Position
 		vector3(0.0f, 0.0f, 0.0f),	//Target
 		AXIS_Y);					//Up
 
@@ -40,6 +40,15 @@ void Application::Update(void)
 
 	//Update Entity Manager
 	m_pEntityMngr->Update();
+
+
+	MyEntity* steve = MyEntity::GetEntity("Steve");
+	float playerY = steve->GetPosition().y;
+	
+	m_pCameraMngr->SetPositionTargetAndUpward(
+		vector3(0.0f, playerY + 5.0f, 25.0f),
+		vector3(0.0f, playerY, 0.0f),
+		AXIS_Y);
 
 	//Set the model matrix for the main object
 	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
