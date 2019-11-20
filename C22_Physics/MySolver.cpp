@@ -99,7 +99,7 @@ void MySolver::Update(void)
 
 	m_v3Velocity += m_v3Acceleration;
 	
-	float fMaxVelocity = 1.5f;
+	float fMaxVelocity = 1.3f;
 	m_v3Velocity = CalculateMaxVelocity(m_v3Velocity, fMaxVelocity);
 
 	ApplyFriction(0.1f);
@@ -116,7 +116,7 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 	float fMagThis = glm::length(m_v3Velocity);
 	float fMagOther = glm::length(m_v3Velocity);
 
-	if (m_v3Velocity.y < 0) {
+	if (m_v3Velocity.y < 0 && m_v3Position.y + 1.0 > a_pOther->m_v3Position.y) {
 		ApplyForce(vector3(0, 1.5f, 0));
 	}
 

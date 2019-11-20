@@ -4,7 +4,7 @@ void Application::InitVariables(void)
 {
 	//Set the position and target of the camera
 	m_pCameraMngr->SetPositionTargetAndUpward(
-		vector3(0.0f, 4.0f, 25.0f), //Position
+		vector3(0.0f, 1.0f, 25.0f), //Position
 		vector3(0.0f, 0.0f, 0.0f),	//Target
 		AXIS_Y);					//Up
 
@@ -13,16 +13,27 @@ void Application::InitVariables(void)
 	m_pEntityMngr->AddEntity("Minecraft\\Steve.obj", "Steve");
 	m_pEntityMngr->UsePhysicsSolver();
 	
-	for (int i = 0; i < 100; i++)
-	{
+	//Ground
+	for (int i = 0; i < 20; i++) {
 		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
-		vector3 v3Position = vector3(glm::sphericalRand(50.0f));
-		//v3Position.y = 0.0f;
-		v3Position.z = 0.0f;
+
+		vector3 v3Position = vector3(-25 + i * 3,-2,0);
 		matrix4 m4Position = glm::translate(v3Position);
-		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
+
+		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f,0.5f,2.0f)));
+	}
+
+	//Not using this method of platform generation
+	for (int i = 0; i < 120; i++)
+	{
+		//m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
+		//vector3 v3Position = vector3(glm::sphericalRand(50.0f));
+
+		//v3Position.z = 0.0f;
+		//matrix4 m4Position = glm::translate(v3Position);
+		//m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
+
 		//m_pEntityMngr->UsePhysicsSolver();
-		
 		//m_pEntityMngr->SetMass(2);
 		//m_pEntityMngr->SetMass(i+1);
 	}
@@ -43,11 +54,20 @@ void Application::Update(void)
 
 
 	MyEntity* steve = MyEntity::GetEntity("Steve");
+
+	if (steve->GetPosition().x < -20) {
+		steve->SetPosition(vector3(20.0, steve->GetPosition().y, steve->GetPosition().z));
+	}
+	
+	if (steve->GetPosition().x > 20) {
+		steve->SetPosition(vector3(-20.0, steve->GetPosition().y, steve->GetPosition().z));
+	}
+
 	float playerY = steve->GetPosition().y;
 
-	if (m_pCameraMngr->GetPosition().y < playerY + 5.0f) {
+	if (m_pCameraMngr->GetPosition().y < playerY + 2.0f) {
 		m_pCameraMngr->SetPositionTargetAndUpward(
-			vector3(0.0f, playerY + 5.0f, 25.0f),
+			vector3(0.0f, playerY + 2.0f, 20.0f),
 			vector3(0.0f, playerY, 0.0f),
 			AXIS_Y);
 	}
