@@ -37,6 +37,10 @@ namespace Simplex {
 		//Automaticly set the next path block position
 		void NextPathBlock();
 
+		void GenerateRandomPositionAroundPathBlock();
+
+		void GenerateRandomPositionInChunk();
+
 	};
 
 }
