@@ -1,4 +1,8 @@
+
+#include <cstdlib> 
+#include <ctime> 
 #include "AppClass.h"
+
 using namespace Simplex;
 void Application::InitVariables(void)
 {
@@ -20,7 +24,26 @@ void Application::InitVariables(void)
 		vector3 v3Position = vector3(-25 + i * 3,-3,0);
 		matrix4 m4Position = glm::translate(v3Position);
 
-		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f,0.5f,2.0f)));
+		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
+	}
+
+
+	srand((unsigned)time(0));
+	for (int j = 3; j < 400; j += 5)
+	{
+		for (int i = 0; i < 20; i++) {
+			int random = (rand() % 100) + 1;
+
+			if (random <= 30)
+			{
+				m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
+
+				vector3 v3Position = vector3(-25 + i * 3, j, 0);
+				matrix4 m4Position = glm::translate(v3Position);
+
+				m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
+			}
+		}
 	}
 
 
