@@ -421,12 +421,12 @@ void Application::ProcessKeyboard(void)
 	float fDelta = m_pSystem->GetDeltaTime(0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		m_pEntityMngr->ApplyForce(vector3(-2.0f * fDelta, 0.0f, 0.0f), "Steve");
+		m_pEntityMngr->ApplyForce(vector3(-3.5f * fDelta, 0.0f, 0.0f), "Steve");
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		m_pEntityMngr->ApplyForce(vector3(2.0f * fDelta, 0.0f, 0.0f), "Steve");
+		m_pEntityMngr->ApplyForce(vector3(3.5f * fDelta, 0.0f, 0.0f), "Steve");
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
