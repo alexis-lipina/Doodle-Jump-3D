@@ -178,6 +178,12 @@ void Simplex::MyEntityManager::Update(void)
 	{
 		for (uint j = i + 1; j < m_uEntityCount; j++)
 		{
+			// loose spatial optimization by "column", if they arent in the same vertical column dont check collision
+			if (abs(m_mEntityArray[i]->GetPosition().x - m_mEntityArray[j]->GetPosition().x) > 4.0f)
+			{
+				continue;
+			}
+
 			//if objects are colliding resolve the collision
 			if (m_mEntityArray[i]->IsColliding(m_mEntityArray[j]))
 			{
