@@ -11,12 +11,14 @@ Date: 2017/06
 #include "imgui\ImGuiObject.h"
 
 #include "MyEntityManager.h"
+#include "GameManager.h"
 
 namespace Simplex
 {
 //Adding Application to the Simplex namespace
 class Application
 {
+	GameManager* m_pGM = nullptr;
 	MyEntityManager* m_pEntityMngr = nullptr; //Entity Manager
 private:
 	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu"; //programmer
