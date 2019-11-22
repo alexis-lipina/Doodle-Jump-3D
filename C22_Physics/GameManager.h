@@ -1,6 +1,7 @@
 #pragma once
 #include "Simplex/Simplex.h"
 #include <time.h>
+#include <ctime>
 
 namespace Simplex {
 
@@ -11,11 +12,23 @@ namespace Simplex {
 		//Indicates the height of the player
 		int blockChunk;
 
+		//The length of a chunk
+		int m_iChunkHeight;
+
 		//The number of random blocks when generating a new chunk of platforms
-		int randomBlocks;
+		int m_iRandomBlocks;
+
+		//The number of random block around each path blocks
+		int m_iRandomPathBlocks;
+
+		//The average distance between each path blocks
+		float m_fAvgGap;
+
+		//Half width of the game field
+		int halfWidth;
 
 		//The next "Path" block's position
-		vector3 pathBlockPosition;
+		vector3 m_v3PathBlockPosition;
 
 	public:
 		static GameManager* GetInstance();

@@ -28,7 +28,7 @@ void Application::InitVariables(void)
 	}
 
 
-	srand((unsigned)time(0));
+	/*srand((unsigned)time(0))
 	for (int j = 3; j < 400; j += 5)
 	{
 		for (int i = 0; i < 20; i++) {
@@ -44,7 +44,7 @@ void Application::InitVariables(void)
 				m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
 			}
 		}
-	}
+	}*/
 
 
 	for (int i = 0; i < 5; i++) {
@@ -57,20 +57,6 @@ void Application::InitVariables(void)
 	}
 
 
-	//Not using this method of platform generation
-	for (int i = 0; i < 120; i++)
-	{
-		//m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
-		//vector3 v3Position = vector3(glm::sphericalRand(50.0f));
-
-		//v3Position.z = 0.0f;
-		//matrix4 m4Position = glm::translate(v3Position);
-		//m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f)));
-
-		//m_pEntityMngr->UsePhysicsSolver();
-		//m_pEntityMngr->SetMass(2);
-		//m_pEntityMngr->SetMass(i+1);
-	}
 }
 void Application::Update(void)
 {
@@ -101,9 +87,9 @@ void Application::Update(void)
 	float playerY = steve->GetPosition().y;
 
 	//Move Camera According to Player's Y Position
-	if (m_pCameraMngr->GetPosition().y < playerY + 2.0f) {
+	if (m_pCameraMngr->GetPosition().y < playerY + 1.0f) {
 		m_pCameraMngr->SetPositionTargetAndUpward(
-			vector3(0.0f, playerY + 2.0f, 20.0f),
+			vector3(0.0f, playerY + 1.0f, 20.0f),
 			vector3(0.0f, playerY, 0.0f),
 			AXIS_Y);
 	}
