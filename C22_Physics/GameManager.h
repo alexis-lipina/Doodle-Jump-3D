@@ -2,6 +2,7 @@
 #include "Simplex/Simplex.h"
 #include <time.h>
 #include <ctime>
+#include <cmath>
 
 namespace Simplex {
 
@@ -21,14 +22,19 @@ namespace Simplex {
 		//The number of random block around each path blocks
 		int m_iRandomPathBlocks;
 
-		//The average distance between each path blocks
-		float m_fAvgGap;
+		//The average vertical distance between each path blocks
+		float m_fAvgYGap;
+
+		//The max horizontal distance between each path blocks
+		float m_fMaxXGap;
 
 		//Half width of the game field
 		int halfWidth;
 
 		//The next "Path" block's position
 		vector3 m_v3PathBlockPosition;
+
+
 
 	public:
 		static GameManager* GetInstance();
@@ -50,10 +56,18 @@ namespace Simplex {
 		//Automaticly set the next path block position
 		void NextPathBlock();
 
-		void GenerateRandomPositionAroundPathBlock();
+		//return a random position around path block
+		vector3 GenerateRandomPositionAroundPathBlock();
 
-		void GenerateRandomPositionInChunk();
+		//retern a random position in the current chunk
+		vector3 GenerateRandomPositionInChunk();
 
+		//Increment chunk counter
+		void NextChunk();
+
+		//Random Number Generators
+		float RandomFloat();
+		float RandomFloat(float min, float max);
 	};
 
 }
