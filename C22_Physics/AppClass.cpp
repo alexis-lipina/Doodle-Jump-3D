@@ -16,46 +16,44 @@ void Application::InitVariables(void)
 
 	m_pEntityMngr->AddEntity("Minecraft\\Steve.obj", "Steve");
 	m_pEntityMngr->UsePhysicsSolver();
-	
+
 	//Ground
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 40; i++) {
 		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
 
-		vector3 v3Position = vector3(-25 + i * 3,-3,0);
+		vector3 v3Position = vector3(-20 + i, -3, 0);
 		matrix4 m4Position = glm::translate(v3Position);
 
 		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
 	}
 
+	//Spawn random blocks
+	for (int i = 0; i < m_pGM->m_iRandomBlocks; i++) {
+		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
+		matrix4 m4Position = glm::translate(m_pGM->GenerateRandomPositionInChunk());
+		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
+	}
 
-	/*srand((unsigned)time(0))
-	for (int j = 3; j < 400; j += 5)
-	{
-		for (int i = 0; i < 20; i++) {
-			int random = (rand() % 100) + 1;
+	//spawn path blocks
+	for (int i = 0; i < 100; i++) {
 
-			if (random <= 30)
-			{
-				m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
+		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
 
-				vector3 v3Position = vector3(-25 + i * 3, j, 0);
-				matrix4 m4Position = glm::translate(v3Position);
+		vector3 v3Position = m_pGM->GetPathBlockPosition();
+		matrix4 m4Position = glm::translate(v3Position);
 
-				m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
-			}
+		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
+
+		//spawn random block around path blocks
+		if (i % 3 == 0) {
+			m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
+			matrix4 m4Position = glm::translate(m_pGM->GenerateRandomPositionAroundPathBlock());
+			m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
 		}
-	}*/
+			
 
-
-	for (int i = 0; i < 5; i++) {
-		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
-
-		vector3 v3Position = vector3(0 + i * 3, 3, 0);
-		matrix4 m4Position = glm::translate(v3Position);
-
-		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
+		m_pGM->NextPathBlock();
 	}
-
 
 }
 void Application::Update(void)
@@ -95,7 +93,7 @@ void Application::Update(void)
 	}
 
 	//Platform Generation
-	
+
 	//Set the model matrix for the main object
 	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
 

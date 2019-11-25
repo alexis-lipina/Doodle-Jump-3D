@@ -24,69 +24,83 @@ void Simplex::GameManager::Init()
 	blockChunk = 1;
 	m_iChunkHeight = 100;
 
-	m_iRandomBlocks = 10;
-	m_iRandomPathBlocks = 5;
+	m_iRandomBlocks = 30;
+	m_iRandomPathBlocks = 1;
 
-	halfWidth = 20;
+	halfWidth = 19.0f;
 
-	m_v3PathBlockPosition = vector3(RandomFloat(-5.0,5.0), m_fAvgYGap + RandomFloat(), 0);
+	m_fAvgYGap = 3.5f;
 
-	m_fAvgYGap = 3.0f;
+	m_fMaxXGap = 6.0f;
+
+	m_v3PathBlockPosition = vector3(0, 3, 0);
+
+
 }
 
-vector3 Simplex::GameManager::GetPathBlockPotition(vector3 pos){return m_v3PathBlockPosition;}
+vector3 Simplex::GameManager::GetPathBlockPosition(){return m_v3PathBlockPosition;}
 
 void Simplex::GameManager::SetPathBlockPosition(vector3 pos){m_v3PathBlockPosition = pos;}
 
+float Simplex::GameManager::GetYAvgGap()
+{
+	return m_fAvgYGap;
+}
+
 void Simplex::GameManager::NextPathBlock()
 {
-	float xPos = m_v3PathBlockPosition.x + RandomFloat(-5.0, 5.0);
-	float yPos = m_v3PathBlockPosition.y + m_fAvgYGap + RandomFloat();
+	float gap = RandomFloat(-m_fMaxXGap, m_fMaxXGap);
+
+	while (Absolute(gap) < 1.0f) {
+		gap = RandomFloat(-m_fMaxXGap, m_fMaxXGap);
+	}
+	float xPos = m_v3PathBlockPosition.x + gap;
+	float yPos = m_v3PathBlockPosition.y + m_fAvgYGap + RandomFloat(-1.0,1.0);
 
 	//Make sure xPos is in-bound
-	if (abs(xPos) > halfWidth) {
+	if (Absolute(xPos) >= halfWidth) {
 
 		if (xPos < 0) {
-			xPos = halfWidth - (halfWidth - xPos);
+			xPos = 19 - RandomFloat(1.0f,3.0f);
 		}
 
-		if (xPos > 0) {
-			xPos = -halfWidth + (xPos - halfWidth);
+		else if (xPos > 0) {
+			xPos = -19 + RandomFloat(1.0f, 3.0f);
 		}
 	}
 
 	m_v3PathBlockPosition = vector3(xPos, yPos, 0);
-	
 }
 
 vector3 Simplex::GameManager::GenerateRandomPositionAroundPathBlock()
 {
-	float xPos = m_v3PathBlockPosition.x + RandomFloat(-5.0,5.0);
-	if (abs(xPos) > halfWidth) {
+	float xPos = m_v3PathBlockPosition.x + RandomFloat(-10.0,10.0);
+
+	//Make sure xPos is in-bound
+	if (Absolute(xPos) >= halfWidth) {
 
 		if (xPos < 0) {
-			xPos = halfWidth - (halfWidth - xPos);
+			xPos = 19 - RandomFloat(1.0f, 3.0f);
 		}
 
-		if (xPos > 0) {
-			xPos = -halfWidth + (xPos - halfWidth);
+		else if (xPos > 0) {
+			xPos = -19 + RandomFloat(1.0f, 3.0f);
 		}
 	}
 
-	float yPos = m_v3PathBlockPosition.x + RandomFloat(-5.0, 5.0);
+	float yPos = m_v3PathBlockPosition.y + RandomFloat(-8.0, 8.0);
 
-	if (yPos < 5.0) {
-		yPos = 5.0;
+	if (yPos < 4.0) {
+		yPos = 4.0;
 	}
 
 	return vector3(xPos, yPos, 0.0);
-
 }
 
 vector3 Simplex::GameManager::GenerateRandomPositionInChunk()
 {
 	float xPos = RandomFloat(-20.0, 20.0);
-	float yPos = RandomFloat(6.0 + (((float)blockChunk - 1) * 100.0), blockChunk * 100);
+	float yPos = RandomFloat(4.0 + ((blockChunk - 1) * 100.0), blockChunk * 100);
 
 	return vector3(xPos, yPos, 0);
 }
@@ -96,12 +110,18 @@ void Simplex::GameManager::NextChunk()
 	blockChunk++;
 }
 
-float Simplex::GameManager::RandomFloat()
-{
-	return (static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
-}
-
 float Simplex::GameManager::RandomFloat(float min, float max)
 {
 	return (min)+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max - (min))));
+}
+
+float Simplex::GameManager::Absolute(float f)
+{
+	if (f == 0)
+		return f;
+
+	if (f < 0)
+		f = -f;
+
+	return f;
 }
