@@ -20,7 +20,6 @@ void Application::InitVariables(void)
 	//Ground
 	for (int i = 0; i < 20; i++) {
 		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
-
 		vector3 v3Position = vector3(-25 + i * 3,-3,0);
 		matrix4 m4Position = glm::translate(v3Position);
 
