@@ -20,8 +20,8 @@ void Application::InitVariables(void)
 	//Ground
 	for (int i = 0; i < 40; i++) {
 		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
+		vector3 v3Position = vector3(-25 + i * 3,-3,0);
 
-		vector3 v3Position = vector3(-20 + i, -3, 0);
 		matrix4 m4Position = glm::translate(v3Position);
 
 		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));

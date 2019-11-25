@@ -15,6 +15,7 @@ class MyRigidBody
 {
 public:
 	typedef MyRigidBody* PRigidBody; //MyEntity Pointer
+	bool m_bFixed = false; // DOODLE JUMP 3D FIELD : Whether a rigidbody is fixed in space, in order to prevent collision checks between fixed objects.
 
 protected:
 	MeshManager* m_pMeshMngr = nullptr; //for displaying the Rigid Body
@@ -22,6 +23,7 @@ protected:
 	bool m_bVisibleBS = false; //Visibility of bounding sphere
 	bool m_bVisibleOBB = true; //Visibility of Oriented bounding box
 	bool m_bVisibleARBB = true; //Visibility of axis (Re)aligned bounding box
+
 
 	float m_fRadius = 0.0f; //Radius
 
