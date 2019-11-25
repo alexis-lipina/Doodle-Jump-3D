@@ -55,6 +55,18 @@ void Application::InitVariables(void)
 		m_pGM->NextPathBlock();
 	}
 
+	//set all cubes to fixed to optimize collision detection
+	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
+	{
+		if (m_pEntityMngr->GetUniqueID().find("Cube", 0) == 0)
+		{
+			m_pEntityMngr->GetEntity(i)->GetRigidBody()->m_bFixed = true;
+		}
+		
+	}
+	MyEntity::GetEntity("Steve")->GetRigidBody()->m_bFixed = false;
+
+
 }
 void Application::Update(void)
 {

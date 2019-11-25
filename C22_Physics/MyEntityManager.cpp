@@ -176,6 +176,21 @@ void Simplex::MyEntityManager::Update(void)
 	//check collisions
 	for (uint i = 0; i < m_uEntityCount; i++)
 	{
+		//draw column around non-fixed entities
+		if (!m_mEntityArray[i]->GetRigidBody()->m_bFixed)
+		{
+			m_mEntityArray[i]->SetAxisVisible(true);
+			m_mEntityArray[i]->GetRigidBody()->m_pMeshMngr->AddLineToRenderList(glm::translate(ZERO_V3),
+				m_mEntityArray[i]->GetPosition() + vector3(-1.5f, -1000.f, 0.f),
+				m_mEntityArray[i]->GetPosition() + vector3(-1.5f, 1000.f, 0.f),
+				vector3(1.f, 1.f, 0.f),
+				vector3(1.f, 1.f, 0.f));
+			m_mEntityArray[i]->GetRigidBody()->m_pMeshMngr->AddLineToRenderList(glm::translate(ZERO_V3),
+				m_mEntityArray[i]->GetPosition() + vector3(1.5f, -1000.f, 0.f),
+				m_mEntityArray[i]->GetPosition() + vector3(1.5f, 1000.f, 0.f),
+				vector3(1.f, 1.f, 0.f),
+				vector3(1.f, 1.f, 0.f));
+		}
 		for (uint j = i + 1; j < m_uEntityCount; j++)
 		{
 			// early exit condition for collisions between two fixed objects
