@@ -49,8 +49,7 @@ void Application::InitVariables(void)
 			m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "Cube_" + std::to_string(i));
 			matrix4 m4Position = glm::translate(m_pGM->GenerateRandomPositionAroundPathBlock());
 			m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
-		}
-			
+		}			
 
 		m_pGM->NextPathBlock();
 	}
@@ -90,6 +89,11 @@ void Application::Update(void)
 			vector3(0.0f, playerY + 1.0f, 20.0f),
 			vector3(0.0f, playerY, 0.0f),
 			AXIS_Y);
+	}
+
+	if (playerY < m_pCameraMngr->GetPosition().y - 15)
+	{
+		m_bRunning = false;
 	}
 
 	//Platform Generation
