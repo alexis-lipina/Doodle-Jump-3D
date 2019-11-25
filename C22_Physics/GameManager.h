@@ -16,11 +16,7 @@ namespace Simplex {
 		//The length of a chunk
 		int m_iChunkHeight;
 
-		//The number of random blocks when generating a new chunk of platforms
-		int m_iRandomBlocks;
 
-		//The number of random block around each path blocks
-		int m_iRandomPathBlocks;
 
 		//The average vertical distance between each path blocks
 		float m_fAvgYGap;
@@ -37,6 +33,13 @@ namespace Simplex {
 
 
 	public:
+
+		//The number of random blocks when generating a new chunk of platforms
+		int m_iRandomBlocks;
+
+		//The number of random block around each path blocks
+		int m_iRandomPathBlocks;
+
 		static GameManager* GetInstance();
 
 		GameManager(void);
@@ -48,10 +51,12 @@ namespace Simplex {
 		void Init();
 
 		//Get the path block positon
-		vector3 GetPathBlockPotition(vector3 pos);
+		vector3 GetPathBlockPosition();
 
 		//Set the path block position
 		void SetPathBlockPosition(vector3 pos);
+
+		float GetYAvgGap();
 
 		//Automaticly set the next path block position
 		void NextPathBlock();
@@ -66,8 +71,10 @@ namespace Simplex {
 		void NextChunk();
 
 		//Random Number Generators
-		float RandomFloat();
 		float RandomFloat(float min, float max);
+
+		//Absolute Value
+		float Absolute(float f);
 	};
 
 }
