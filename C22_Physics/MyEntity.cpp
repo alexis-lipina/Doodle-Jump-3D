@@ -314,10 +314,27 @@ void Simplex::MyEntity::Update(void)
 }
 void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 {
+	//death indicator
+	bool dead = false;
+
+	//is it a collision between Steve and creeper?
+	if (m_sUniqueID == "Steve" && (a_pOther->GetUniqueID().find("Creeper") != String::npos)) {
+		MyEntity::GetEntity("Steve")->GetRigidBody()->m_bFixed = true;
+
+		//if yes, you are dead
+		dead = true;
+
+		std::cout << "HIIIIIIIIIIIIT" << std::endl;
+	}
+
 	if (m_bUsePhysicsSolver)
 	{
-		m_pSolver->ResolveCollision(a_pOther->GetSolver());
+		//if not dead, great, you can keep jumping
+		if(!dead)
+			m_pSolver->ResolveCollision(a_pOther->GetSolver());
 	}
+	
+	
 }
 void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 {

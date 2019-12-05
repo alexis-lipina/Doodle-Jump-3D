@@ -92,11 +92,6 @@ void MySolver::Update(void)
 {
 	ApplyForce(vector3(0.0f, -0.033f, 0.0f));
 
-	if (m_v3Position.y <= -2)
-	{
-		ApplyForce(vector3(0, 1.5f, 0));
-	}
-
 	m_v3Velocity += m_v3Acceleration;
 	
 	float fMaxVelocity = 1.3f;
