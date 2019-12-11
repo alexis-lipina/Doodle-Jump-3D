@@ -37,7 +37,7 @@ void Application::InitVariables(void)
 		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
 		MyEntity::GetEntity("bCube_" + std::to_string(i))->GetRigidBody()->m_bFixed = true;
 
-		if (v3Position.y > 30.0f) {
+		if (v3Position.y > 50.0f) {
 			m_pEntityMngr->AddEntity("Minecraft\\Creeper.obj", "Creeper" + std::to_string(i));
 			m_pEntityMngr->UsePhysicsSolver(true, "Creeper" + std::to_string(i));
 
@@ -62,8 +62,10 @@ void Application::InitVariables(void)
 		if (i % 3 == 0) {
 			m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "dCube_" + std::to_string(i));
 			matrix4 m4Position = glm::translate(m_pGM->GenerateRandomPositionAroundPathBlock());
-			m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
+			m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.1f, 2.0f)));
+
 			MyEntity::GetEntity("dCube_" + std::to_string(i))->GetRigidBody()->m_bFixed = true;
+			MyEntity::GetEntity("dCube_" + std::to_string(i))->m_bIsBreakable = true;
 		}
 
 		m_pGM->NextPathBlock();
@@ -101,7 +103,7 @@ void Application::Update(void)
 	float playerY = steve->GetPosition().y;
 
 	//Player will randomly collide with creepers for no reason so the player is invincible at the start of the game
-	if (playerY < 10.0) {
+	if (playerY < 5.0) {
 		MyEntity::GetEntity("Steve")->GetRigidBody()->m_bFixed = false;
 	}
 

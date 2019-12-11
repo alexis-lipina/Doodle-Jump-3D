@@ -33,6 +33,8 @@ class MyEntity
 	MySolver* m_pSolver = nullptr; //Physics MySolver
 
 public:
+	bool m_bIsBreakable = false;
+	bool m_ShouldYeet = false;
 	/*
 	Usage: Constructor that specifies the name attached to the MyEntity
 	Arguments:

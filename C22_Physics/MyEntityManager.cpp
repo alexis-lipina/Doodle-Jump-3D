@@ -313,7 +313,10 @@ void Simplex::MyEntityManager::AddEntityToRenderList(uint a_uIndex, bool a_bRigi
 		//add for each one in the entity list
 		for (a_uIndex = 0; a_uIndex < m_uEntityCount; ++a_uIndex)
 		{
-			m_mEntityArray[a_uIndex]->AddToRenderList(a_bRigidBody);
+			if (!m_mEntityArray[a_uIndex]->m_ShouldYeet)
+			{
+				m_mEntityArray[a_uIndex]->AddToRenderList(a_bRigidBody);
+			}
 		}
 	}
 	else //do it for the specified one
