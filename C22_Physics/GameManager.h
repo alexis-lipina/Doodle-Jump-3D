@@ -16,8 +16,6 @@ namespace Simplex {
 		//The length of a chunk
 		int m_iChunkHeight;
 
-
-
 		//The average vertical distance between each path blocks
 		float m_fAvgYGap;
 
@@ -67,6 +65,9 @@ namespace Simplex {
 		//retern a random position in the current chunk
 		vector3 GenerateRandomPositionInChunk();
 
+		//get current chunk number
+		int GetChunk();
+
 		//Increment chunk counter
 		void NextChunk();
 
@@ -75,6 +76,7 @@ namespace Simplex {
 
 		//Absolute Value
 		float Absolute(float f);
+
 	};
 
 }

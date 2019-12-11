@@ -17,6 +17,8 @@ void Application::InitVariables(void)
 	m_pEntityMngr->AddEntity("Minecraft\\Steve.obj", "Steve");
 	m_pEntityMngr->UsePhysicsSolver();
 
+	srand((unsigned)time(0));
+
 	//Ground
 	for (int i = 0; i < 40; i++) {
 		m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "aCube_" + std::to_string(i));
@@ -37,12 +39,16 @@ void Application::InitVariables(void)
 		m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
 		MyEntity::GetEntity("bCube_" + std::to_string(i))->GetRigidBody()->m_bFixed = true;
 
-		if (v3Position.y > 30.0f) {
+
+		float spawn = (1) + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (10 - (1))));
+
+		if (v3Position.y > 30.0f && spawn >= 7) {
 			m_pEntityMngr->AddEntity("Minecraft\\Creeper.obj", "Creeper" + std::to_string(i));
 			m_pEntityMngr->UsePhysicsSolver(true, "Creeper" + std::to_string(i));
 
 			MyEntity::GetEntity("Creeper" + std::to_string(i))->GetRigidBody()->m_bFixed = false;
-			MyEntity::GetEntity("Creeper" + std::to_string(i))->SetPosition(v3Position + vector3(0, 5.0, 0));
+			MyEntity::GetEntity("Creeper" + std::to_string(i))->SetPosition(v3Position + vector3(0, 10.0, 0));
+			MyEntity::GetEntity("Creeper" + std::to_string(i))->GetSolver()->m_v3JumpForce = 1.0f;
 		}
 		
 	}
@@ -70,7 +76,7 @@ void Application::InitVariables(void)
 	}
 
 	MyEntity::GetEntity("Steve")->GetRigidBody()->m_bFixed = false;
-
+	MyEntity::GetEntity("Steve")->GetSolver()->m_v3JumpForce = 1.8f;
 }
 void Application::Update(void)
 {
@@ -122,6 +128,67 @@ void Application::Update(void)
 
 	//Set the model matrix for the main object
 	//m_pEntityMngr->SetModelMatrix(m_m4Steve, "Steve");
+
+	if (playerY > (100.0 + 200.0 * (m_pGM->GetChunk() - 1))) {
+
+		m_pGM->NextChunk();
+
+		std::cout << "Generate" << std::endl;
+
+		//Spawn random blocks
+		for (int i = 0; i < m_pGM->m_iRandomBlocks; i++) {
+			m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "bCube_" + std::to_string(i));
+			vector3 v3Position = m_pGM->GenerateRandomPositionInChunk();
+			matrix4 m4Position = glm::translate(v3Position);
+			m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
+			m_pEntityMngr->GetEntity()->GetRigidBody()->m_bFixed = true;
+
+
+			float spawn = (1) + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (10 - (1))));
+
+			if (v3Position.y > 30.0f && spawn >= 3) {
+
+				std::cout << "Make Creepers!" << std::endl;
+				m_pEntityMngr->AddEntity("Minecraft\\Creeper.obj", "Creeper" + std::to_string(m_pGM->GetChunk()));
+				m_pEntityMngr->UsePhysicsSolver(true, "Creeper" + std::to_string(m_pGM->GetChunk()));
+
+				m_pEntityMngr->GetEntity()->GetRigidBody()->m_bFixed = false;
+				m_pEntityMngr->GetEntity()->SetPosition(v3Position + vector3(0, 10.0, 0));
+				m_pEntityMngr->GetEntity()->GetSolver()->m_v3JumpForce = 1.0f;
+			}
+
+		}
+
+		//spawn path blocks
+		for (int i = 0; i < 100; i++) {
+
+			m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "cCube_" + std::to_string(i));
+
+			vector3 v3Position = m_pGM->GetPathBlockPosition();
+			matrix4 m4Position = glm::translate(v3Position);
+
+			m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
+			m_pEntityMngr->GetEntity()->GetRigidBody()->m_bFixed = true;
+
+			//spawn random block around path blocks
+			if (i % 3 == 0) {
+				m_pEntityMngr->AddEntity("Minecraft\\Cube.obj", "dCube_" + std::to_string(i));
+				matrix4 m4Position = glm::translate(m_pGM->GenerateRandomPositionAroundPathBlock());
+				m_pEntityMngr->SetModelMatrix(m4Position * glm::scale(vector3(2.0f, 0.5f, 2.0f)));
+				m_pEntityMngr->GetEntity()->GetRigidBody()->m_bFixed = true;
+			}
+
+			m_pGM->NextPathBlock();
+		}
+	}
+
+	//remove out-of-lower-bound objects
+	for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++) {
+		if (m_pEntityMngr->GetEntity(i)->GetRigidBody()->GetCenterGlobal().y < m_pCameraMngr->GetPosition().y - 15)
+		{
+			m_pEntityMngr->RemoveEntity(i);
+		}
+	}
 
 	//Add objects to render list
 	m_pEntityMngr->AddEntityToRenderList(-1, true);

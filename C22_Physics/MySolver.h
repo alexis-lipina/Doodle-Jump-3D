@@ -17,7 +17,11 @@ class MySolver
 	vector3 m_v3Size = vector3(1.0f); //Size of the MySolver
 	vector3 m_v3Velocity = ZERO_V3; //Velocity of the MySolver
 	float m_fMass = 1.0f; //Mass of the solver
+
+	
 public:
+
+	float m_v3JumpForce = 1.5f;
 	/*
 	USAGE: Constructor
 	ARGUMENTS: ---

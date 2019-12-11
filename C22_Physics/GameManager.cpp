@@ -22,7 +22,7 @@ void Simplex::GameManager::Init()
 	srand((unsigned)time(0));
 
 	blockChunk = 1;
-	m_iChunkHeight = 100;
+	m_iChunkHeight = 200;
 
 	m_iRandomBlocks = 30;
 	m_iRandomPathBlocks = 1;
@@ -100,9 +100,14 @@ vector3 Simplex::GameManager::GenerateRandomPositionAroundPathBlock()
 vector3 Simplex::GameManager::GenerateRandomPositionInChunk()
 {
 	float xPos = RandomFloat(-20.0, 20.0);
-	float yPos = RandomFloat(4.0 + ((blockChunk - 1) * 100.0), blockChunk * 100);
+	float yPos = RandomFloat(4.0 + (((float)blockChunk - 1.0f) * (float)m_iChunkHeight), blockChunk * m_iChunkHeight);
 
 	return vector3(xPos, yPos, 0);
+}
+
+int Simplex::GameManager::GetChunk()
+{
+	return blockChunk;
 }
 
 void Simplex::GameManager::NextChunk()
