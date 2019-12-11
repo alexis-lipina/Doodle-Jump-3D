@@ -314,9 +314,6 @@ void Simplex::MyEntity::Update(void)
 }
 void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 {
-	//death indicator
-	bool dead = false;
-
 	//is it a collision between Steve and creeper?
 	if (m_sUniqueID == "Steve" && (a_pOther->GetUniqueID().find("Creeper") != String::npos) && a_pOther->GetRigidBody()->m_bFixed != true) {
 
@@ -334,11 +331,25 @@ void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 		
 	}
 
+	//if this is platform colliding with steve
+	
+
+
 	if (m_bUsePhysicsSolver)
 	{
 		//if not dead, great, you can keep jumping
-		if(!dead)
+		if (!GetRigidBody()->m_bFixed)
+		{
 			m_pSolver->ResolveCollision(a_pOther->GetSolver());
+		}
+	}
+	if (m_sUniqueID == "Steve" && (a_pOther->m_bIsBreakable) && GetVelocity().y < 0)
+	{
+		std::cout << "Crack!" << std::endl;
+		a_pOther->SetPosition(vector3(-10000, -10000, -10000));
+		//a_pOther->GetRigidBody()->SetModelMatrix(glm::translate(vector3(-100000, -100000, -10)) * glm::scale(vector3(0.1, 0.1, 0.1)));
+		//a_pOther->m_pSolver->ApplyForce(vector3(0, 1.8f, 0));
+		a_pOther->m_ShouldYeet = true;
 	}
 	
 	
