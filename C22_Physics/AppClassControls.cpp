@@ -71,14 +71,14 @@ void Application::ProcessKeyPressed(sf::Event a_event)
 	switch (a_event.key.code)
 	{
 	default: break;
-	case sf::Keyboard::Space:
-		m_sound.play();
-		m_pEntityMngr->ApplyForce(vector3(0.0f, 1.0f, 0.0f), "Steve");
-		break;
-	case sf::Keyboard::LShift:
-	case sf::Keyboard::RShift:
-		m_bModifier = true;
-		break;
+	//case sf::Keyboard::Space:
+	//	m_sound.play();
+	//	m_pEntityMngr->ApplyForce(vector3(0.0f, 1.0f, 0.0f), "Steve");
+	//	break;
+	//case sf::Keyboard::LShift:
+	//case sf::Keyboard::RShift:
+	//	m_bModifier = true;
+	//	break;
 	}
 
 	//gui
@@ -96,22 +96,22 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 	case sf::Keyboard::Escape:
 		m_bRunning = false;
 		break;
-	case sf::Keyboard::F1:
-		m_pCameraMngr->SetCameraMode(CAM_PERSP);
-		break;
-	case sf::Keyboard::F2:
-		m_pCameraMngr->SetCameraMode(CAM_ORTHO_Z);
-		break;
-	case sf::Keyboard::F3:
-		m_pCameraMngr->SetCameraMode(CAM_ORTHO_Y);
-		break;
-	case sf::Keyboard::F4:
-		m_pCameraMngr->SetCameraMode(CAM_ORTHO_X);
-		break;
-	case sf::Keyboard::F:
-		bFPSControl = !bFPSControl;
-		m_pCameraMngr->SetFPS(bFPSControl);
-		break;
+		/*case sf::Keyboard::F1:
+			m_pCameraMngr->SetCameraMode(CAM_PERSP);
+			break;
+		case sf::Keyboard::F2:
+			m_pCameraMngr->SetCameraMode(CAM_ORTHO_Z);
+			break;
+		case sf::Keyboard::F3:
+			m_pCameraMngr->SetCameraMode(CAM_ORTHO_Y);
+			break;
+		case sf::Keyboard::F4:
+			m_pCameraMngr->SetCameraMode(CAM_ORTHO_X);
+			break;*/
+	//case sf::Keyboard::F:
+	//	bFPSControl = !bFPSControl;
+	//	m_pCameraMngr->SetFPS(bFPSControl);
+	//	break;
 	case sf::Keyboard::PageUp:
 		break;
 	case sf::Keyboard::PageDown:
@@ -120,9 +120,9 @@ void Application::ProcessKeyReleased(sf::Event a_event)
 		break;
 	case sf::Keyboard::Subtract:
 		break;
-	case sf::Keyboard::LShift:
-	case sf::Keyboard::RShift:
-		m_bModifier = false;
+	//case sf::Keyboard::LShift:
+	//case sf::Keyboard::RShift:
+	//	m_bModifier = false;
 	}
 
 	//gui
@@ -329,51 +329,51 @@ void Application::ArcBall(float a_fSensitivity)
 }
 void Application::CameraRotation(float a_fSpeed)
 {
-	if (m_bFPC == false)
-		return;
+	//if (m_bFPC == false)
+	//	return;
 
-	UINT	MouseX, MouseY;		// Coordinates for the mouse
-	UINT	CenterX, CenterY;	// Coordinates for the center of the screen.
+	//UINT	MouseX, MouseY;		// Coordinates for the mouse
+	//UINT	CenterX, CenterY;	// Coordinates for the center of the screen.
 
-								//Initialize the position of the pointer to the middle of the screen
-	CenterX = m_pSystem->GetWindowX() + m_pSystem->GetWindowWidth() / 2;
-	CenterY = m_pSystem->GetWindowY() + m_pSystem->GetWindowHeight() / 2;
+	//							//Initialize the position of the pointer to the middle of the screen
+	//CenterX = m_pSystem->GetWindowX() + m_pSystem->GetWindowWidth() / 2;
+	//CenterY = m_pSystem->GetWindowY() + m_pSystem->GetWindowHeight() / 2;
 
-	//Calculate the position of the mouse and store it
-	POINT pt;
-	GetCursorPos(&pt);
-	MouseX = pt.x;
-	MouseY = pt.y;
+	////Calculate the position of the mouse and store it
+	//POINT pt;
+	//GetCursorPos(&pt);
+	//MouseX = pt.x;
+	//MouseY = pt.y;
 
-	//Calculate the difference in view with the angle
-	float fAngleX = 0.0f;
-	float fAngleY = 0.0f;
-	float fDeltaMouse = 0.0f;
-	if (MouseX < CenterX)
-	{
-		fDeltaMouse = static_cast<float>(CenterX - MouseX);
-		fAngleY += fDeltaMouse * a_fSpeed;
-	}
-	else if (MouseX > CenterX)
-	{
-		fDeltaMouse = static_cast<float>(MouseX - CenterX);
-		fAngleY -= fDeltaMouse * a_fSpeed;
-	}
+	////Calculate the difference in view with the angle
+	//float fAngleX = 0.0f;
+	//float fAngleY = 0.0f;
+	//float fDeltaMouse = 0.0f;
+	//if (MouseX < CenterX)
+	//{
+	//	fDeltaMouse = static_cast<float>(CenterX - MouseX);
+	//	fAngleY += fDeltaMouse * a_fSpeed;
+	//}
+	//else if (MouseX > CenterX)
+	//{
+	//	fDeltaMouse = static_cast<float>(MouseX - CenterX);
+	//	fAngleY -= fDeltaMouse * a_fSpeed;
+	//}
 
-	if (MouseY < CenterY)
-	{
-		fDeltaMouse = static_cast<float>(CenterY - MouseY);
-		fAngleX -= fDeltaMouse * a_fSpeed;
-	}
-	else if (MouseY > CenterY)
-	{
-		fDeltaMouse = static_cast<float>(MouseY - CenterY);
-		fAngleX += fDeltaMouse * a_fSpeed;
-	}
-	//Change the Yaw and the Pitch of the camera
-	m_pCameraMngr->ChangeYaw(fAngleY * 0.25f);
-	m_pCameraMngr->ChangePitch(-fAngleX * 0.25f);
-	SetCursorPos(CenterX, CenterY);//Position the mouse in the center
+	//if (MouseY < CenterY)
+	//{
+	//	fDeltaMouse = static_cast<float>(CenterY - MouseY);
+	//	fAngleX -= fDeltaMouse * a_fSpeed;
+	//}
+	//else if (MouseY > CenterY)
+	//{
+	//	fDeltaMouse = static_cast<float>(MouseY - CenterY);
+	//	fAngleX += fDeltaMouse * a_fSpeed;
+	//}
+	////Change the Yaw and the Pitch of the camera
+	//m_pCameraMngr->ChangeYaw(fAngleY * 0.25f);
+	//m_pCameraMngr->ChangePitch(-fAngleX * 0.25f);
+	//SetCursorPos(CenterX, CenterY);//Position the mouse in the center
 }
 //Keyboard
 void Application::ProcessKeyboard(void)
@@ -395,23 +395,23 @@ void Application::ProcessKeyboard(void)
 #pragma region Camera Position
 
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		m_pCameraMngr->MoveForward(m_fMovementSpeed * fMultiplier);
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	//	m_pCameraMngr->MoveForward(m_fMovementSpeed * fMultiplier);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		m_pCameraMngr->MoveForward(-m_fMovementSpeed * fMultiplier);
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	//	m_pCameraMngr->MoveForward(-m_fMovementSpeed * fMultiplier);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		m_pCameraMngr->MoveSideways(-m_fMovementSpeed * fMultiplier);
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	//	m_pCameraMngr->MoveSideways(-m_fMovementSpeed * fMultiplier);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		m_pCameraMngr->MoveSideways(m_fMovementSpeed * fMultiplier);
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	//	m_pCameraMngr->MoveSideways(m_fMovementSpeed * fMultiplier);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-		m_pCameraMngr->MoveVertical(-m_fMovementSpeed * fMultiplier);
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+	//	m_pCameraMngr->MoveVertical(-m_fMovementSpeed * fMultiplier);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		m_pCameraMngr->MoveVertical(m_fMovementSpeed * fMultiplier);
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	//	m_pCameraMngr->MoveVertical(m_fMovementSpeed * fMultiplier);
 #pragma endregion
 
 #pragma region Character Position
