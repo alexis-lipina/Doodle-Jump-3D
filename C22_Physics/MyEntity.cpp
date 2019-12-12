@@ -326,7 +326,7 @@ void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
 		else {
 			MyEntity::GetEntity("Steve")->GetRigidBody()->m_bFixed = true;
 			//if not, you are dead
-			dead = true;
+			//dead = true;
 		}
 		
 	}
